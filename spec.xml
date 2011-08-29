@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<Module>
+  <ModulePrefs 
+    title="Home Search Example" 
+    height="100%">
+    <Require feature="dynamic-height" />
+  </ModulePrefs>
+  <UserPref 
+    name="SystemID" 
+    display_name="RETS SystemID" 
+    required="true" />
+  <UserPref 
+    name="ClientKey" 
+    display_name="ClientKey" 
+    required="true" />
+  <UserPref 
+    name="static_base_url" 
+    display_name="Static Base URL" 
+    required="true" />
+  <UserPref 
+    name="service_base_url" 
+    display_name="Service Base URL" 
+    required="true" />
+  <UserPref 
+    name="branding" 
+    display_name="Branding" 
+    required="true" />
+  <Content type="html"> 
+  <![CDATA[ 
+    <link href='http://fonts.googleapis.com/css?family=Amaranth:400,700' rel='stylesheet' type='text/css' />
+    <div id="main">
+      <div id="header">
+        <h1></h1>
+        <h3>Welcome Guest!</h3>
+      </div>
+      
+      <div id="search-criteria">
+        <dl id="type" class="dropdown">
+          <dt>Loading...</dt>
+          <dd>
+            <ul></ul>
+          </dd>
+        </dl>
+      </div>
+      <div id="search-loading">Loading...</div>
+      <div id="search" style="display:none;">
+        <div class="nav-container">
+          <div class="sortby-container">
+            <h3>Sort by:</h3>
+            <dl class="dropdown">
+              <dt>Loading...</dt>
+              <dd>
+                <ul></ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div style="clear:both;"></div> 
+        <div id="results-loading" style="display:none;">Loading...</div>
+        <div id="results">
+          <div class="list"></div>
+        </div>
+      </div>
+    </div>
+ 
+    <script id="pager_tmpl" type="text/html">
+      <h3>{{ range_start }} <span>-</span> {{ range_end }} <span>of</span> {{ total }}</h3>
+      {{#show_previous}}<a href="#" class="previous"></a>{{/show_previous}}
+      {{^show_previous}}<div class="previous"></div>{{/show_previous}}
+      {{#show_next}}<a href="#" class="next"></a>{{/show_next}}
+      {{^show_next}}<div class="next"></div>{{/show_next}}
+    </script>
+
+    <script id="search_mode_tmpl" type="text/html">
+      <a>{{ Display }}</a>
+    </script>
+
+    <script id="sort_option_tmpl" type="text/html">
+      <a>{{ Display }}</a>
+    </script>
+
+    <script id="property_type_tmpl" type="text/html">
+      <a>{{#_titleize}}Description{{/_titleize}}<span class="type_count">{{listing_count}}</span></a>
+    </script>
+
+    <script type="text/javascript" src="https://raw.github.com/getify/LABjs/master/LAB.src.js"></script>
+    <script>
+        var App = {};
+        App.init = function() {
+          var prefs = new gadgets.Prefs();
+          App.SystemID = prefs.getString('SystemID');
+          App.ClientKey = prefs.getString('ClientKey');
+          App.static_base_url = prefs.getString('static_base_url');
+          App.service_base_url = prefs.getString('service_base_url');
+          App.branding = prefs.getString('branding');
+
+          $('#header h1').text(App.branding);
+
+          $('head').append('<link rel="stylesheet" href="' + App.static_base_url + '/css/style.css" type="text/css" />');
+        };
+
+        App.load_templates = function() {
+
+          var load_template = function(template_name) {
+            return function(callback) {
+              var time = (new Date().getTime());
+              var url = _.sprintf('%s/templates/%s/%s.html?nocache=%d', App.static_base_url, App.SystemID, template_name, time);
+              var params = {};
+              params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.TEXT;
+              gadgets.io.makeRequest(url, function(res) {
+                ich.addTemplate(template_name, res.text);
+                callback();
+              }, params);
+            };
+          };
+
+          var load_json = function(filename, ident) {
+            return function(callback) {
+              var time = (new Date().getTime());
+              var url = _.sprintf('%s/templates/%s/%s.json?nocache=%d', App.static_base_url, App.SystemID, filename, time);
+
+              gadgets.io.makeRequest(url, function(res) {
+                App[ident] = $.parseJSON(res.text);
+                callback();
+              });
+            }; 
+          };
+
+          async.parallel([
+            load_template('listing_row'),
+            load_json('sort_options', 'SortOptions')
+          ],
+          function(err, results) {
+            console.log('templates_loaded');
+          }); 
+        };
+
+        App.load_scripts = function() {
+          $LAB
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'utils'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'models'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'collections'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/pulldowns/property_class'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/pulldowns/sortby'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/pager'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/listings/list'))
+            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'script'));
+        };
+
+        $LAB.setGlobalDefaults({AlwaysPreserveOrder:true, CacheBust:true});
+        $LAB
+          .script('//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
+          .script('http://documentcloud.github.com/underscore/underscore.js')
+          .script('http://edtsech.github.com/underscore.string/lib/underscore.string.js')
+          .script('http://documentcloud.github.com/backbone/backbone.js')
+          .script('https://raw.github.com/andyet/ICanHaz.js/master/ICanHaz.js')
+          .script('https://github.com/caolan/async/raw/master/lib/async.js')
+          .wait(App.init).wait(App.load_templates).wait(App.load_scripts);
+    </script>
+  ]]> 
+  </Content>
+</Module>

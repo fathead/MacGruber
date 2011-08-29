@@ -1,0 +1,566 @@
+/**
+ * HTML5 ✰ Boilerplate
+ *
+ * style.css contains a reset, font normalization and some base styles.
+ *
+ * Credit is left where credit is due.
+ * Much inspiration was taken from these projects:
+ * - yui.yahooapis.com/2.8.1/build/base/base.css
+ * - camendesign.com/design/
+ * - praegnanz.de/weblog/htmlcssjs-kickstart
+ */
+
+
+/**
+ * html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
+ * v1.6.1 2010-09-17 | Authors: Eric Meyer & Richard Clark
+ * html5doctor.com/html-5-reset-stylesheet/
+ */
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+blockquote, q { quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after { content: ""; content: none; }
+
+ins { background-color: #ff9; color: #000; text-decoration: none; }
+
+mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bold; }
+
+del { text-decoration: line-through; }
+
+abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+
+input, select { vertical-align: middle; }
+
+
+/**
+ * Font normalization inspired by YUI Library's fonts.css: developer.yahoo.com/yui/
+ */
+
+body { font:13px/1.231 sans-serif; *font-size:small; } /* Hack retained to preserve specificity */
+select, input, textarea, button { font:99% sans-serif; }
+
+/* Normalize monospace sizing:
+   en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome */
+pre, code, kbd, samp { font-family: monospace, sans-serif; }
+
+
+/**
+ * Minimal base styles.
+ */
+
+/* Always force a scrollbar in non-IE */
+html { overflow-y: scroll; }
+
+/* j.mp/webkit-tap-highlight-color */
+a:link { -webkit-tap-highlight-color: #FF5E99; }
+
+/* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
+a:hover, a:active { outline: none; }
+
+a, a:active, a:visited { color: #607890; }
+a:hover { color: #036; }
+
+ul, ol { margin-left: 2em; }
+ol { list-style-type: decimal; }
+
+/* Remove margins for navigation lists */
+nav ul, nav li { margin: 0; list-style:none; list-style-image: none; }
+
+small { font-size: 85%; }
+strong, th { font-weight: bold; }
+
+td { vertical-align: top; }
+
+/* Set sub, sup without affecting line-height: gist.github.com/413930 */
+sub, sup { font-size: 75%; line-height: 0; position: relative; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+pre {
+  /* www.pathf.com/blogs/2008/05/formatting-quoted-code-in-blog-posts-css21-white-space-pre-wrap/ */
+  white-space: pre; white-space: pre-wrap; word-wrap: break-word;
+  padding: 15px;
+}
+
+.ie6 legend, .ie7 legend { margin-left: -7px; }
+
+/* Align checkboxes, radios, text inputs with their label by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css  */
+input[type="radio"] { vertical-align: text-bottom; }
+input[type="checkbox"] { vertical-align: bottom; }
+.ie7 input[type="checkbox"] { vertical-align: baseline; }
+.ie6 input { vertical-align: text-bottom; }
+
+/* Hand cursor on clickable input elements */
+label, input[type="button"], input[type="submit"], input[type="image"], button { cursor: pointer; }
+
+/* 1) Make inputs and buttons play nice in IE: www.viget.com/inspire/styling-the-button-element-in-internet-explorer/
+   2) WebKit browsers add a 2px margin outside the chrome of form elements. 
+      Firefox adds a 1px margin above and below textareas */
+button, input, select, textarea { width: auto; overflow: visible; margin: 0; }
+
+textarea { overflow: auto; } /* www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/ */
+
+/* Remove extra padding and inner border in Firefox */
+input::-moz-focus-inner,
+button::-moz-focus-inner { border: 0; padding: 0; }
+
+/* Colors for form validity */
+input:valid, textarea:valid   {  }
+input:invalid, textarea:invalid {
+   border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red;
+}
+.no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
+
+/* These selection declarations have to be separate
+   No text-shadow: twitter.com/miketaylr/status/12228805301
+   Also: hot pink! */
+::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
+::selection { background:#FF5E99; color:#fff; text-shadow: none; }
+
+/* Bicubic resizing for non-native sized IMG:
+   code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
+.ie7 img { -ms-interpolation-mode: bicubic; }
+
+
+/**
+ * You might tweak these..
+ */
+
+body, select, input, textarea {
+  /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
+  color: #444;
+  /* Set your base font here, to apply evenly */
+  /* font-family: Georgia, serif;  */
+}
+
+/* Headers (h1, h2, etc) have no default font-size or margin; define those yourself */
+h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+
+
+/**
+ * Primary styles
+ *
+ * Author: 
+*/
+body {
+  background-color: transparent;
+  font-family: "helvetica neue", helvetica, arial, sans-serif;
+}
+
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#main {
+  min-width: 817px;
+  max-width: 1219px;
+  overflow: hidden;
+}
+
+#header {
+  display: block;
+  overflow: hidden;
+}
+
+#header h1 {
+  float: left;
+  width: 600px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 1.5em;
+  text-shadow: 1px 1px 0 #fff;
+  color: #999;
+  font-family: Amaranth, sans-serif;
+}
+
+#header h3 {
+  float right;
+  text-align: right;
+  line-height: 35px;
+  color: #666;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+#search-criteria {
+  width: 200px;
+  float: left;
+  margin-top: 8px;
+} 
+
+#search, #search-loading {
+  width: 679px;
+  float: left;
+  padding-left: 8px;
+  margin-top: 8px;
+  border-left: 1px dotted #c8c8c8;
+}
+
+#search-loading, #results-loading {
+  font-size: 200%;
+  color: #ff0000;
+  font-weight: bold;
+}
+
+#search .nav-container {
+  border-bottom: 1px dotted #c8c8c8;
+  padding-bottom: 8px;
+  height: 27px;
+  padding-right: 3px;
+}
+
+.pager {
+  float: right;
+  text-align: right;
+}
+
+.pager h3 {
+  line-height: 31px;
+  height: 27px;
+  float: left;
+  padding-right: 10px;
+  font-size: 1.2em;
+  color: #000;
+}
+
+.pager span {
+  font-weight: normal;
+  color: #666;
+}
+
+#search .nav-container .sortby-container h3 {
+  padding-right: 6px;
+  line-height: 30px;
+  height: 27px;
+  display: inline-block;
+}
+
+#search .nav-container .sortby-container {
+  margin-right: 18px;
+  float: right;
+}
+
+.dropdown {
+  text-align: left;
+  display: inline-block;
+}
+
+.dropdown dd, .dropdown dt, .dropdown ul { 
+  margin:0px; 
+  padding:0px; 
+}
+
+.dropdown dd { 
+  position: relative; 
+}
+
+.dropdown a, .dropdown a:visited { 
+  color: #333; 
+  text-decoration: none; 
+  outline: none;
+}
+
+.dropdown a:hover { 
+  color: #000;
+}
+
+.dropdown dt a:hover, .dropdown dt a:focus { 
+  color: #333; 
+  border: 1px solid #666;
+  box-shadow: 1px 1px 3px #999;
+}
+
+.dropdown dt a {
+  background: #eaeaea url(https://sites.google.com/site/macgrubergadgets/home/dropdown_arrow.png) no-repeat scroll 95% center; 
+  display: block; 
+  padding: 5px;
+  border: 1px solid #c8c8c8; 
+  width: 180px;
+  border-radius: 2px;
+  height: 19px;
+  line-height: 19px;
+}
+
+.dropdown dd ul { 
+  background: #fff none repeat scroll 0 0; 
+  border: 1px solid #666; 
+  border-top: 0px;
+  color: #C5C0B0; 
+  display: none;
+  left: 0px; 
+  padding: 0px 0px; 
+  position: absolute; 
+  top: 0px; 
+  width: auto;
+  min-width: 190px;
+  list-style: none;
+  z-index: 99;
+  box-shadow: 3px 3px 3px #999;
+}
+
+.dropdown span.value { display:none;}
+
+.dropdown dd ul li a { 
+  padding: 5px; 
+  display: block;
+  height: 19px;
+  line-height: 19px;
+}
+
+.dropdown dd ul li.on {
+  background-color: #FFFFCC;
+}
+
+.dropdown dd ul li a:hover { 
+  color: #fff;
+  background-color: #4D90FE;
+}
+
+.dropdown dd ul li span.type_count, .dropdown dt a span {
+  float:right;
+  background: #999;
+  border-radius: 3px 3px 3px 3px;
+  display: inline-block;
+  line-height: 15px;
+  padding: 2px 3px 2px 3px;
+  color: #fff;
+  font-size: 90%;
+}
+
+.dropdown dt a span {
+  float: none;
+  margin-left: 6px;
+}
+
+.pager a.next:hover, .pager a.previous:hover {
+  border: 1px solid #666;
+}
+
+.pager a.previous, .pager a.next, .pager div.previous, .pager div.next {
+  width: 29px;
+  height: 29px;
+  display: inline-block;
+  border: 1px solid #c8c8c8;
+}
+
+.pager a.previous, .pager div.previous {
+  background: #eaeaea url('https://mail.google.com/mail/u/0/pimages/2/toolbar/previous.png') no-repeat 50% 50%;
+  border-radius: 2px 0px 0px 2px;
+}
+
+.pager div.previous, .pager div.next {
+  opacity: .5;
+}
+
+.pager a.next, .pager div.next {
+  background: #eaeaea url('https://mail.google.com/mail/u/0/pimages/2/toolbar/next.png') no-repeat 50% 50%;
+  border-radius: 0px 2px 2px 0px;
+}
+
+#search .nav-container ul.search-mode {
+  float: left;
+  list-style-type: none;
+  margin-left: 0;
+}
+
+#search .nav-container ul.search-mode li {
+  float: left;
+  height: 29px;
+  background-color: #eee;
+  background-image: -moz-linear-gradient(center top , #eeeeee, #e0e0e0);
+  border: 1px solid #CCC;
+  text-shadow: -1px 1px 0 #fff;
+}
+
+#search .nav-container ul.search-mode li:hover {
+  background-color: #c0c0c0;
+  background-image: -moz-linear-gradient(center top , #c0c0c0, #eeeeee);
+  border: 1px solid #666;
+}
+
+#search .nav-container ul.search-mode li.left {
+  border-radius: 2px 0px 0px 2px;
+}
+
+#search .nav-container ul.search-mode li.right {
+  border-radius: 0px 2px 2px 0px;
+}
+
+#search .nav-container ul.search-mode li.active {
+  background-color: #c0c0c0;
+  background-image: -moz-linear-gradient(center top, #c0c0c0, #eeeeee);
+  text-shadow: none;
+  border: 1px solid #666;
+}
+
+#search .nav-container ul.search-mode li.active a {
+  color: #000;
+}
+
+#search .nav-container ul.search-mode li a {
+  font-size: 110%;
+  line-height: 29px;
+  padding-left: 12px;
+  padding-right: 12px;
+  text-decoration: none;
+  color: #666;
+}
+
+#results {
+  margin-top: 12px;
+}
+
+#results .list div.listing-row {
+    height: 105px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    position: relative;
+    border-bottom: 1px solid #e8e8e8;
+    display: block;
+    clear: both;
+    font-family: Amaranth, sans-serif;
+}
+
+#results .list div.listing-row:last-child {
+    border-bottom: 0px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#results .list div.listing-row:hover {
+    background-color: lightblue;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #FFFFFF), color-stop(1.00, #eaeaea));
+    background: -moz-linear-gradient(top, #FFFFFF 0.00%, #eaeaea 100.00%);
+}
+
+#results .list div.listing-row a.photo, #results .list div.listing-row a.no-photos {
+  width: 140px;
+  height: 105px;
+  float: left;
+  box-shadow: 0px 0px 3px 0px #333;
+}
+
+#results .list div.listing-row a.no-photos {
+  line-height: 105px;
+  text-align: center;
+}
+
+#results .list div.listing-row a.position {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #fff;
+    padding: 0px 6px 0px 6px;
+    font-weight: bold;
+    color: #336699;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    box-shadow: 1px 1px 3px 0px #333;
+    text-shadow: 1px 1px 1px #e8e8e8;
+    font-size: 1.1em;
+}
+
+#results .list div.listing-row a.photo-count {
+    position: absolute;
+    top: 82px;
+    left: 0px;
+    background-color: #000;
+    padding: 3px;
+    opacity: .6;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0px -1px 1px #000;
+    font-size: 1.1em;
+}
+
+#results .list div.listing-row a.street {
+    float: left;
+    font-size: 1.8em;
+    margin: -6px 0px 0px 6px;
+    width: 500px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #e8e8e8;
+}
+
+#results .list div.listing-row a.city-state-zip {
+    float: left;
+    width: 500px;
+    margin: -4px 0px 0px 6px;
+    font-size: 1.1em;
+    text-shadow: 1px 1px 2px #e8e8e8;
+}
+
+#results .list div.listing-row div.price {
+    position: absolute;
+    right: 0px;
+    margin: -6px 6px 0px 0px;
+    text-shadow: 1px 1px 2px #e8e8e8;
+}
+
+#results .list div.listing-row div.price h3 {
+    font-size: 2em;
+    font-weight: bold;
+    display: inline;
+    color: #666;
+}
+
+#results .list div.listing-row div.price span {
+    display: inline;
+    font-size: 1.4em;
+    padding-right: 0px;
+    vertical-align: top;
+    color: #333;
+}
+
+#results .list div.listing-row ul.features {
+    list-style-type: none;
+    margin: 0;
+    margin-left: 2px;
+    padding-top: 6px;
+    overflow: hidden;
+    float: left;
+}
+
+#results .list div.listing-row ul.features li {
+    border-bottom: 0px;
+    float: left;
+    padding: 0px 6px 0px 6px;
+    border-right: 1px solid #999;
+    line-height: 1.5em;
+    font-size: 1.1em;
+}
+
+#results .list div.listing-row ul.features li b {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+#results .list div.listing-row ul.features li:last-child {
+    border-right: 0px;
+}
