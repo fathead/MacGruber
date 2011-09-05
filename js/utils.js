@@ -46,7 +46,16 @@ App.Util.Listing.photo_url = function(listing, pkey) {
   return function() {
     return function(index) {
       var id = listing.get(pkey);
-      var url = App.static_base_url + '/photos/' + App.SystemID + '/' + id + '_' + index + '.jpg';
+      var url = _.sprintf('%s/%s/GetObject?ID=%s&w=%d&h=%d&q=%d'
+        , App.service_base_url
+        , App.SystemID
+        , id + ':' + index
+        , 140
+        , 105
+        , 80
+      );
+
+      console.log(url);
 
       var params = {};
       params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = (86400 * 7);

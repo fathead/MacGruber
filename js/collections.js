@@ -80,7 +80,7 @@ App.Collection.PropertyTypes = Backbone.Collection.extend({
       listings.fetch({ data: {
         SearchType: 'Property',
         Class: c.ClassName,
-        Count: 2
+        Count: 2,
         nocache: (new Date().getTime())
       }});
    
