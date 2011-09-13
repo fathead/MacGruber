@@ -1,6 +1,4 @@
 App.View.Pager = Backbone.View.extend({
-  //el: $('#search .nav'),
-  //tagName: 'div',
   className: 'pager',
 
   events: {
@@ -28,7 +26,7 @@ App.View.Pager = Backbone.View.extend({
       show_previous: (offset ? true : false),
       show_next: (offset + limit > total ? false : true)   
     });
-    $('#search .nav-container').prepend($(this.el).html(tmpl));
+    this.options.parent_el.prepend($(this.el).html(tmpl));
     
     return this;
   },
@@ -41,6 +39,7 @@ App.View.Pager = Backbone.View.extend({
 
     var new_offset = offset - limit;
     App.search_nav.set({ Offset: new_offset }); 
+
   },
 
   nextPage: function(e) {
@@ -51,5 +50,9 @@ App.View.Pager = Backbone.View.extend({
 
     var new_offset = offset + limit;
     App.search_nav.set({ Offset: new_offset }); 
+
+    if (this.options.parent_el.is('.nav-container-bottom')) {
+      document.getElementById('header').scrollIntoView(true);
+    }
   }
 });

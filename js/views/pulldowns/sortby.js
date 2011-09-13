@@ -30,7 +30,7 @@ App.View.SortOption = Backbone.View.extend({
     if (this.model.get('selected')) {
       $(this.el).addClass('on');
 
-      App.search_nav.set({ SortBy: this.model });
+      App.search_nav.set({ SortBy: this.model, Offset: 0 });
     } else {
       $(this.el).removeClass('on');
     }
@@ -41,7 +41,7 @@ App.View.SortByList = Backbone.View.extend({
   el: $('.sortby-container'),
 
   events: {
-    "click dt a": "toggleMenu"
+    "click dt": "toggleMenu"
   },
 
   initialize: function() {
@@ -91,7 +91,8 @@ App.View.SortByList = Backbone.View.extend({
   },
 
   hideMenu: function(model, e) {
+    if ( $(e.target).is('.sortby-container dt') ) return;
     if ( $(e.target).is('.sortby-container dt a') ) return;
     this.$('ul').hide();
-  },
+  }
 });

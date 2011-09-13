@@ -73,7 +73,7 @@ App.Collection.PropertyTypes = Backbone.Collection.extend({
         Description: c.Description,
         ClassName: c.ClassName,
         ResourceID: Resource.Property.ResourceID,
-        selected: false,
+        selected: false
       });
 
       var listings = new App.Collection.Listings();

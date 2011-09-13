@@ -4,7 +4,7 @@ App.Model.ViewState = Backbone.Model.extend();
 
 App.Model.System = Backbone.Model.extend({
   initialize: function() {
-    this.fetch();
+    this.fetch({ data: { nocache: (new Date().getTime()) } });
   },
 
   url: function() {

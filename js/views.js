@@ -57,6 +57,6 @@ App.View.SearchModeList = Backbone.View.extend({
       $(self.el).append(item.render().el);
     });
 
-    $('#search .nav-container').prepend(this.el);
+    $('#search .nav-container-top').prepend(this.el);
   }
 });

@@ -1,5 +1,6 @@
 App.View.PropertyTypeRow = Backbone.View.extend({
   tagName: "li",
+  className: "count",
 
   events: {
     "click": "selected"
@@ -50,7 +51,7 @@ App.View.PropertyTypeRow = Backbone.View.extend({
     this.$('span').text(this.model.get('listing_count'));
 
     if( this.model.get('selected') ) {
-      $('#type dt a span').text(this.model.get('listing_count'));
+      $('#type dt span').text(this.model.get('listing_count'));
     }
   }
 });
@@ -59,7 +60,7 @@ App.View.PropertyTypeList = Backbone.View.extend({
   el: $('#type'),
 
   events: {
-    "click dt a": "toggleMenu"
+    "click dt": "toggleMenu"
   },
 
   initialize: function() {
@@ -95,7 +96,10 @@ App.View.PropertyTypeList = Backbone.View.extend({
   },
 
   hideMenu: function(model, e) {
+    if ( $(e.target).is('#type dt') ) return;
     if ( $(e.target).is('#type dt a') ) return;
+    if ( $(e.target).is('#type dt span') ) return;
+
     this.$('ul').hide();
-  },
+  }
 });

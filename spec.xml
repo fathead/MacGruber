@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
-<!DOCTYPE html>
 <Module>
   <ModulePrefs 
     title="Home Search Example" 
     height="100%">
     <Require feature="dynamic-height" />
+    <Require feature="opensocial-0.8"/>
+    <Require feature="setprefs" />
   </ModulePrefs>
-  <UserPref 
-    name="SystemID" 
-    display_name="RETS SystemID" 
-    required="true" />
   <UserPref 
     name="ClientKey" 
     display_name="ClientKey" 
-    required="true" />
-  <UserPref 
-    name="static_base_url" 
-    display_name="Static Base URL" 
     required="true" />
   <UserPref 
     name="service_base_url" 
@@ -26,9 +19,27 @@
     name="branding" 
     display_name="Branding" 
     required="true" />
+  <UserPref 
+    name="counter" 
+    default_value="0" 
+    datatype="hidden"/>
   <Content type="html"> 
   <![CDATA[ 
-    <link href='http://fonts.googleapis.com/css?family=Amaranth:400,700' rel='stylesheet' type='text/css' />
+    <!DOCTYPE html>
+    <html class="no-js">
+    <head>
+      <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <link href='http://fonts.googleapis.com/css?family=Amaranth:400,700' rel='stylesheet' type='text/css' />
+      <style type="text/css">
+      <%- css('normalize.css') %>
+      <%- css('style.css') %>
+      </style>
+      
+      <script>
+        <%- lib('modernizr.js') %>
+      </script>
+    </head>
     <div id="main">
       <div id="header">
         <h1></h1>
@@ -37,7 +48,7 @@
       
       <div id="search-criteria">
         <dl id="type" class="dropdown">
-          <dt>Loading...</dt>
+          <dt class="count">Loading...</dt>
           <dd>
             <ul></ul>
           </dd>
@@ -45,7 +56,7 @@
       </div>
       <div id="search-loading">Loading...</div>
       <div id="search" style="display:none;">
-        <div class="nav-container">
+        <div class="nav-container-top">
           <div class="sortby-container">
             <h3>Sort by:</h3>
             <dl class="dropdown">
@@ -60,15 +71,20 @@
         <div id="results-loading" style="display:none;">Loading...</div>
         <div id="results">
           <div class="list"></div>
+          <div class="mode_photos"></div>
+        </div>
+        <div class="nav-container-bottom">
+          
         </div>
       </div>
     </div>
  
     <script id="pager_tmpl" type="text/html">
-      <h3>{{ range_start }} <span>-</span> {{ range_end }} <span>of</span> {{ total }}</h3>
-      {{#show_previous}}<a href="#" class="previous"></a>{{/show_previous}}
+      <h3>{{ range_start }} <span>-</span> {{ range_end }} <span>of</span> {{ total }}
+      </h3>
+      {{#show_previous}}<a class="previous"></a>{{/show_previous}}
       {{^show_previous}}<div class="previous"></div>{{/show_previous}}
-      {{#show_next}}<a href="#" class="next"></a>{{/show_next}}
+      {{#show_next}}<a class="next"></a>{{/show_next}}
       {{^show_next}}<div class="next"></div>{{/show_next}}
     </script>
 
@@ -77,87 +93,61 @@
     </script>
 
     <script id="sort_option_tmpl" type="text/html">
-      <a>{{ Display }}</a>
+      <a>{{ Display }}</a><span></span>
     </script>
 
     <script id="property_type_tmpl" type="text/html">
-      <a>{{#_titleize}}Description{{/_titleize}}<span class="type_count">{{listing_count}}</span></a>
+      <a>{{#_titleize}}Description{{/_titleize}}</a><span>{{listing_count}}</span>
     </script>
 
-    <script type="text/javascript" src="https://raw.github.com/getify/LABjs/master/LAB.src.js"></script>
+    <%- ich('results/list.html') %>
+    <%- ich('results/photo.html') %>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script>
-        var App = {};
-        App.init = function() {
-          var prefs = new gadgets.Prefs();
-          App.SystemID = prefs.getString('SystemID');
-          App.ClientKey = prefs.getString('ClientKey');
-          App.static_base_url = prefs.getString('static_base_url');
-          App.service_base_url = prefs.getString('service_base_url');
-          App.branding = prefs.getString('branding');
+      // usage: log('inside coolFunc', this, arguments);
+      // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
+      window.log = function(){
+        log.history = log.history || [];   // store logs to an array for reference
+        log.history.push(arguments);
+        if(this.console) {
+          arguments.callee = arguments.callee.caller;
+          var newarr = [].slice.call(arguments);
+          (typeof console.log === 'object' ? log.apply.call(console.log, console, newarr) : console.log.apply(console, newarr));
+        }
+      };
 
-          $('#header h1').text(App.branding);
+      // make it safe to use console.log always
+      (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,timeStamp,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();){b[a]=b[a]||c}})((function(){try
+      {console.log();return window.console;}catch(err){return window.console={};}})());
 
-          $('head').append('<link rel="stylesheet" href="' + App.static_base_url + '/css/style.css" type="text/css" />');
-        };
+      var App = {};
+      var prefs = new gadgets.Prefs();
+  
+      App.SystemID = '<%= SystemID %>';
+      App.ClientKey = prefs.getString('ClientKey');
+      App.service_base_url = prefs.getString('service_base_url');
+      App.branding = prefs.getString('branding');
 
-        App.load_templates = function() {
+      $('#header h1').text(App.branding);
+    </script>
+    <script>
+        <%- lib('underscore.js') %>
+        <%- lib('underscore.string.js') %>
+        <%- lib('backbone.js') %>
+        <%- lib('ICanHaz.js') %>
 
-          var load_template = function(template_name) {
-            return function(callback) {
-              var time = (new Date().getTime());
-              var url = _.sprintf('%s/templates/%s/%s.html?nocache=%d', App.static_base_url, App.SystemID, template_name, time);
-              var params = {};
-              params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.TEXT;
-              gadgets.io.makeRequest(url, function(res) {
-                ich.addTemplate(template_name, res.text);
-                callback();
-              }, params);
-            };
-          };
+        <%- js('sort_options.json') %>
 
-          var load_json = function(filename, ident) {
-            return function(callback) {
-              var time = (new Date().getTime());
-              var url = _.sprintf('%s/templates/%s/%s.json?nocache=%d', App.static_base_url, App.SystemID, filename, time);
-
-              gadgets.io.makeRequest(url, function(res) {
-                App[ident] = $.parseJSON(res.text);
-                callback();
-              });
-            }; 
-          };
-
-          async.parallel([
-            load_template('listing_row'),
-            load_json('sort_options', 'SortOptions')
-          ],
-          function(err, results) {
-            console.log('templates_loaded');
-          }); 
-        };
-
-        App.load_scripts = function() {
-          $LAB
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'utils'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'models'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'collections'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/pulldowns/property_class'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/pulldowns/sortby'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/pager'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'views/listings/list'))
-            .script(_.sprintf('%s/js/%s.js', App.static_base_url, 'script'));
-        };
-
-        $LAB.setGlobalDefaults({AlwaysPreserveOrder:true, CacheBust:true});
-        $LAB
-          .script('//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
-          .script('http://documentcloud.github.com/underscore/underscore.js')
-          .script('http://edtsech.github.com/underscore.string/lib/underscore.string.js')
-          .script('http://documentcloud.github.com/backbone/backbone.js')
-          .script('https://raw.github.com/andyet/ICanHaz.js/master/ICanHaz.js')
-          .script('https://github.com/caolan/async/raw/master/lib/async.js')
-          .wait(App.init).wait(App.load_templates).wait(App.load_scripts);
+        <%- script('utils.js') %>
+        <%- script('models.js') %>
+        <%- script('collections.js') %>
+        <%- script('views.js') %>
+        <%- script('views/pulldowns/property_class.js') %>
+        <%- script('views/pulldowns/sortby.js') %>
+        <%- script('views/pager.js') %>
+        <%- script('views/listings/list.js') %>
+        <%- script('script.js') %>
     </script>
   ]]> 
   </Content>
