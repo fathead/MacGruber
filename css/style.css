@@ -147,7 +147,7 @@ a {
 
 .dropdown dt {
   cursor: pointer;
-  background: #eaeaea url(https://sites.google.com/site/macgrubergadgets/home/dropdown_arrow.png) no-repeat scroll 95% center; 
+  background: #eaeaea url(http://fathead.github.com/MacGruber/images/dropdown_arrow.png) no-repeat scroll 95% center; 
   display: block; 
   padding: 5px;
   border: 1px solid #c8c8c8; 
@@ -236,7 +236,7 @@ a {
 }
 
 .pager a.previous, .pager div.previous {
-  background: #eaeaea url('https://mail.google.com/mail/u/0/pimages/2/toolbar/previous.png') no-repeat 50% 50%;
+  background: #eaeaea url('http://fathead.github.com/MacGruber/images/previous.png') no-repeat 50% 50%;
   border-radius: 2px 0px 0px 2px;
 }
 
@@ -246,7 +246,7 @@ a {
 }
 
 .pager a.next, .pager div.next {
-  background: #eaeaea url('https://mail.google.com/mail/u/0/pimages/2/toolbar/next.png') no-repeat 50% 50%;
+  background: #eaeaea url('http://fathead.github.com/MacGruber/images/next.png') no-repeat 50% 50%;
   border-radius: 0px 2px 2px 0px;
 }
 
