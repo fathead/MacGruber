@@ -1,19 +1,3 @@
-$.ajax = function(params) {
-  var url = [params.url]
-  if (params.data) {
-    url.push('?' + $.param(params.data));
-  }
-  
-  var opts = {};
-  opts[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
-
-  var handleResponse = function(res) {
-    return params.success(gadgets.json.parse(res.data));   
-  };
-
-  gadgets.io.makeRequest(url.join(''), handleResponse, opts);
-};
-
 $(document).ready(function() {
   App.view_state = new App.Model.ViewState();
   App.user_prefs = new App.Model.Preferences({ search_mode: 'list' });

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <link href='http://fonts.googleapis.com/css?family=Amaranth:400,700' rel='stylesheet' type='text/css' />
+  <style type="text/css">
+  <%- css('normalize.css') %>
+  <%- css('style.css') %>
+
+  body {
+    text-align: center;
+    background-image: url("http://www.ann-arbor-home-search.com/_/rsrc/1315435078740/config/436f184f0dc1079c.gif");
+    background-position: top left;
+    background-repeat: repeat-x;
+    padding-top: 36px;
+  }
+
+  #main {
+    width: 889px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  </style>
+  
+  <script>
+    <%- lib('modernizr.js') %>
+  </script>
+</head>
+<body>
+  <div id="main">
+    <div id="header">
+      <h1></h1>
+      <h3>Welcome Guest!</h3>
+    </div>
+    
+    <div id="search-criteria">
+      <dl id="type" class="dropdown">
+        <dt class="count">Loading...</dt>
+        <dd>
+          <ul></ul>
+        </dd>
+      </dl>
+    </div>
+    <div id="search-loading">Loading...</div>
+    <div id="search" style="display:none;">
+      <div class="nav-container-top">
+        <div class="sortby-container">
+          <h3>Sort by:</h3>
+          <dl class="dropdown">
+            <dt>Loading...</dt>
+            <dd>
+              <ul></ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div style="clear:both;"></div> 
+      <div id="results-loading" style="display:none;">Loading...</div>
+      <div id="results">
+        <div class="list"></div>
+        <div class="mode_photos"></div>
+      </div>
+      <div class="nav-container-bottom">
+        
+      </div>
+    </div>
+  </div>
+
+  <script id="pager_tmpl" type="text/html">
+    <h3>{{ range_start }} <span>-</span> {{ range_end }} <span>of</span> {{ total }}
+    </h3>
+    {{#show_previous}}<a class="previous"></a>{{/show_previous}}
+    {{^show_previous}}<div class="previous"></div>{{/show_previous}}
+    {{#show_next}}<a class="next"></a>{{/show_next}}
+    {{^show_next}}<div class="next"></div>{{/show_next}}
+  </script>
+
+  <script id="search_mode_tmpl" type="text/html">
+    <a>{{ Display }}</a>
+  </script>
+
+  <script id="sort_option_tmpl" type="text/html">
+    <a>{{ Display }}</a><span></span>
+  </script>
+
+  <script id="property_type_tmpl" type="text/html">
+    <a>{{#_titleize}}Description{{/_titleize}}</a><span>{{listing_count}}</span>
+  </script>
+
+  <%- ich('results/list.html') %>
+  <%- ich('results/photo.html') %>
+
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>
+    // usage: log('inside coolFunc', this, arguments);
+    // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
+    window.log = function(){
+      log.history = log.history || [];   // store logs to an array for reference
+      log.history.push(arguments);
+      if(this.console) {
+        arguments.callee = arguments.callee.caller;
+        var newarr = [].slice.call(arguments);
+        (typeof console.log === 'object' ? log.apply.call(console.log, console, newarr) : console.log.apply(console, newarr));
+      }
+    };
+
+    // make it safe to use console.log always
+    (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,timeStamp,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();){b[a]=b[a]||c}})((function(){try
+    {console.log();return window.console;}catch(err){return window.console={};}})());
+
+    if (window.__isgadget) {
+      $.ajax = function(params) {
+        var url = [params.url]
+        if (params.data) {
+          url.push('?' + $.param(params.data));
+        }
+        
+        var opts = {};
+        opts[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
+
+        var handleResponse = function(res) {
+          return params.success(gadgets.json.parse(res.data));   
+        };
+
+        gadgets.io.makeRequest(url.join(''), handleResponse, opts);
+      };
+    } else {
+      window.gadgets = {
+        Prefs: function() {
+          var prefs = {
+            ClientKey: 1,
+            service_base_url: '<%- service_base_url %>',
+            branding: '<%- branding %>'
+          };
+          return {
+            getString: function(key) {
+              return prefs[key];
+            }
+          };
+        },
+        io: {
+          RequestParameters: {},
+          getProxyUrl: function(url, params) { return url }
+        },
+        window: {
+          adjustHeight: function() { return null }
+        }
+      };
+    }
+
+    var App = {};
+    var prefs = new gadgets.Prefs();
+    console.log(prefs);
+
+    App.SystemID = '<%= SystemID %>';
+    App.ClientKey = prefs.getString('ClientKey');
+    App.service_base_url = prefs.getString('service_base_url');
+    App.branding = prefs.getString('branding');
+
+    $('#header h1').text(App.branding);
+  </script>
+  <script>
+      <%- lib('underscore.js') %>
+      <%- lib('underscore.string.js') %>
+      <%- lib('backbone.js') %>
+      <%- lib('ICanHaz.js') %>
+
+      <%- js('sort_options.json') %>
+
+      <%- script('utils.js') %>
+      <%- script('models.js') %>
+      <%- script('collections.js') %>
+      <%- script('views.js') %>
+      <%- script('views/pulldowns/property_class.js') %>
+      <%- script('views/pulldowns/sortby.js') %>
+      <%- script('views/pager.js') %>
+      <%- script('views/listings/list.js') %>
+      <%- script('script.js') %>
+  </script>
+</body>
+</html>
