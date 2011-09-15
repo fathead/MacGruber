@@ -29,7 +29,9 @@ App.Collection.Listings = Backbone.Collection.extend({
     }
 
     return [];
-  }
+  },
+
+  sync: App.Util.sync
 });
 
 App.Collection.UserSearches = Backbone.Collection.extend({
@@ -81,7 +83,6 @@ App.Collection.PropertyTypes = Backbone.Collection.extend({
         SearchType: 'Property',
         Class: c.ClassName,
         Count: 2,
-        nocache: (new Date().getTime())
       }});
    
       listings.bind("reset", function() {

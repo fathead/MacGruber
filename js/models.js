@@ -4,13 +4,16 @@ App.Model.ViewState = Backbone.Model.extend();
 
 App.Model.System = Backbone.Model.extend({
   initialize: function() {
-    this.fetch({ data: { nocache: (new Date().getTime()) } });
+    this.fetch();
   },
 
   url: function() {
     return _.sprintf('%s/%s/GetMetadata', App.service_base_url, App.SystemID);
-  }
+  },
+
+  sync: App.Util.sync
 });
+
 App.Model.Listing = Backbone.Model.extend();
 
 App.Model.SortOption = Backbone.Model.extend();

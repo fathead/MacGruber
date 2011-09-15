@@ -34,7 +34,6 @@ a {
   font-size: 1.5em;
   text-shadow: 1px 1px 0 #fff;
   color: #999;
-  font-family: Amaranth, sans-serif;
 }
 
 #header h3 {
@@ -312,7 +311,6 @@ a {
     border-bottom: 1px solid #e8e8e8;
     display: block;
     clear: both;
-    font-family: Amaranth, sans-serif;
 }
 
 #results .list div.listing-row:last-child {
@@ -425,7 +423,6 @@ a {
     padding: 0px 6px 0px 6px;
     border-right: 1px solid #999;
     line-height: 1.5em;
-    font-size: 1.1em;
 }
 
 #results .list div.listing-row ul.features li b {

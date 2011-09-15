@@ -1,5 +1,12 @@
 App.Util = {};
 
+App.Util.sync = function(method, model, options) {
+  options.timeout = 10000;
+  options.dataType = 'jsonp';
+
+  return Backbone.sync(method, model, options);
+};
+
 App.Util.commify = function(num) {
   num += ''; 
   var rgx = /(\d+)(\d{3})/;
